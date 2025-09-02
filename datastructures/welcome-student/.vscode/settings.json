@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    // Exclude unnecessary files/folders from being searched or displayed
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/target": true,
+        "**/bin": true
+    },
+}
