@@ -4,6 +4,8 @@
 
 package hamspam;
 
+import java.util.ArrayList;
+
 public class HamSpam {
 	private final int hamNumber;
 	private final int spamNumber;
@@ -15,10 +17,16 @@ public class HamSpam {
 	 * @param hamNumber the ham number; it must be greater than 1
 	 * @param spamNumber the spam number; it must be greater 
 	 * than 1 and not equal to the ham number 
+	 * if either is invalid, throws an invalidConstructor error.
 	 */
 	public HamSpam(int hamNumber, int spamNumber) {
+		if (!(hamNumber > 1) || !((spamNumber > 1) && (spamNumber != hamNumber))) {
+			throw new IllegalArgumentException("hamNumber and/or spamNumber is not valid!");
+		}
+		this.hamNumber = hamNumber;
+		this.spamNumber = spamNumber;
 	}
-
+	
 	/**
 	 * Returns the nth hamspam value (a number, ham, spam, or hamspam) 
 	 * for this game of Ham and Spam.
@@ -26,21 +34,24 @@ public class HamSpam {
 	 * For example, getValue(1) returns "1".
 	 * 
 	 * @param n
-	 *            the number to consider; n > 0
+	 *            the number to consider; n > 0, n < 0 throws InvalidArgumentException
 	 * @return the hamspam value, as a String
 	 */
 	public String getValue(int n) {
-		if (n == 3) {
-			return "ham";
+		if (n < 0) {
+			throw new IllegalArgumentException("n must be greater than 0!");
 		}
-
-		if (n == 4) {
-			return "spam";
+		String returnString = ""; // technically I think a hashmap would be faster here, but ehhhh I'm lazy
+		if (n % hamNumber == 0) {
+			returnString += "ham";
 		}
-		
-		else {
-			return Integer.toString(n);
-		}   
+		if (n % spamNumber == 0) {
+			returnString += "spam";
+		}
+		if (returnString == "") {
+			returnString = String.valueOf(n);
+		}
+		return returnString;
 	}
 
 	/**
@@ -59,6 +70,11 @@ public class HamSpam {
 	 * @return the array of hamspam values
 	 */
 	public String[] getValues(int start, int end) {
-        	return new String[] {"1", "2", "ham", "spam"};
+		ArrayList<String> returnList = new ArrayList<>();
+		for (int i = start; i <= end; i++) {
+			returnList.add(getValue(i));
+		}
+		return returnList.toArray(new String[0]);
+        	
 	}
 }
